@@ -1,8 +1,12 @@
 <?php
+
 namespace frontend\controllers;
 
+use common\models\Country;
+use common\models\Region;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -149,6 +153,7 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
+        $countries = ArrayHelper::map(Country::find()->all(), 'id', 'name');
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
@@ -159,6 +164,7 @@ class SiteController extends Controller
 
         return $this->render('signup', [
             'model' => $model,
+            'countries' => $countries
         ]);
     }
 
@@ -209,5 +215,48 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionRegions()
+    {
+        if ($depdropParents = Yii::$app->request->post('depdrop_parents')) {
+            $parents = $depdropParents;
+            if ($parents != null) {
+                $cat_id = $parents[0];
+                $out = self::getSubList(ArrayHelper::map(Country::findOne($cat_id)->regions, 'id', 'name'));
+
+                return $this->asJson(['output' => $out, 'selected' => '']);
+            }
+        }
+        return $this->asJson(['output' => '', 'selected' => '']);
+    }
+
+    public function actionCities()
+    {
+        if ($depdropParents = Yii::$app->request->post('depdrop_parents')) {
+            $ids = $depdropParents;
+            $cat_id = empty($ids[0]) ? null : $ids[0];
+            $subcat_id = empty($ids[1]) ? null : $ids[1];
+            if ($subcat_id != null) {
+                $out = self::getSubList(ArrayHelper::map(Region::findOne($subcat_id)->cities, 'id', 'name'));
+
+                return $this->asJson(['output' => $out, 'selected' => '']);
+            }
+        }
+        return $this->asJson(['output' => '', 'selected' => '']);
+    }
+
+    private static function getSubList($arr)
+    {
+        $out = [];
+
+        foreach ($arr as $key => $value) {
+            $out[] = [
+                'id' => $key,
+                'name' => $arr[$key]
+            ];
+        }
+
+        return $out;
     }
 }
