@@ -20,11 +20,6 @@ use mdm\admin\models\User as UserModel;
  */
 class User extends UserModel
 {
-    public function getPhone()
-    {
-        return $this->hasOne(Phone::className(), ['id' => 'user_id'])->inverseOf('user');
-    }
-
     public function getAddress()
     {
         return $this->hasOne(Address::className(), ['id' => 'user_id'])->inverseOf('user');
