@@ -35,7 +35,7 @@ class SignupForm extends Signup
             ['name', 'string', 'min' => 2, 'max' => 32],
             ['surname', 'string', 'min' => 2, 'max' => 64],
             ['phone', 'string'],
-            ['postcode', 'integer'],
+            [['postcode', 'city_id'], 'integer'],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
@@ -89,6 +89,7 @@ class SignupForm extends Signup
                     $address = new Address();
                     $address->user_id = $user->id;
                     $address->address = $this->address;
+                    $address->postcode = $this->postcode;
                     $address->city_id = $this->city_id;
                     $address->save();
 

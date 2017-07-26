@@ -22,26 +22,6 @@ class Country extends \yii\db\ActiveRecord
         return '{{%country}}';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['name'], 'string', 'max' => 64],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-        ];
-    }
 
     /**
      * @return \yii\db\ActiveQuery

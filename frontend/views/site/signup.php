@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\depdrop\DepDrop;
 use yii\helpers\Url;
+use kartik\select2\Select2;
 
 $this->title = 'Регистрация';
 $this->params['breadcrumbs'][] = $this->title;
@@ -35,9 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'mask' => '+7 (999) 999-9999',
             ]) ?>
 
-            <?= $form->field($model, 'country_id')->dropDownList($countries, ['id' => 'country-id','prompt'=>'Выбрать...']); ?>
+            <?= $form->field($model, 'country_id')->widget(Select2::classname(), [
+                'data' => $countries,
+                'options' => ['id' => 'country-id', 'placeholder' => 'Выбрать...'],
+            ]); ?>
 
             <?= $form->field($model, 'region_id')->widget(DepDrop::classname(), [
+                'type' => DepDrop::TYPE_SELECT2,
                 'options' => ['id' => 'region-id'],
                 'pluginOptions' => [
                     'depends' => ['country-id'],
@@ -48,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]); ?>
 
             <?= $form->field($model, 'city_id')->widget(DepDrop::classname(), [
+                'type' => DepDrop::TYPE_SELECT2,
                 'pluginOptions' => [
                     'depends' => ['country-id', 'region-id'],
                     'loading' => false,

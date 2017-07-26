@@ -25,31 +25,6 @@ class Region extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['country_id'], 'required'],
-            [['country_id'], 'integer'],
-            [['name'], 'string', 'max' => 64],
-            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'country_id' => 'Country ID',
-            'name' => 'Name',
-        ];
-    }
-
-    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCities()

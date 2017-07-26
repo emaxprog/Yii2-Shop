@@ -24,31 +24,6 @@ class City extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['region_id'], 'required'],
-            [['region_id'], 'integer'],
-            [['name'], 'string', 'max' => 64],
-            [['region_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['region_id' => 'id']],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'region_id' => 'Region ID',
-            'name' => 'Name',
-        ];
-    }
-
-    /**
      * @return \yii\db\ActiveQuery
      */
     public function getRegion()

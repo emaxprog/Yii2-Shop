@@ -8,11 +8,12 @@ use Yii;
  * This is the model class for table "{{%address}}".
  *
  * @property integer $id
+ * @property integer $user_id
  * @property string $address
  * @property integer $postcode
  * @property integer $city_id
- * @property integer $user_id
  *
+ * @property City $city
  * @property User $user
  */
 class Address extends \yii\db\ActiveRecord
@@ -26,30 +27,11 @@ class Address extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @return \yii\db\ActiveQuery
      */
-    public function rules()
+    public function getCity()
     {
-        return [
-            [['address', 'city_id', 'user_id'], 'required'],
-            [['postcode', 'city_id', 'user_id'], 'integer'],
-            [['address'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'address' => 'Address',
-            'postcode' => 'Postcode',
-            'city_id' => 'City ID',
-            'user_id' => 'User ID',
-        ];
+        return $this->hasOne(City::className(), ['id' => 'city_id']);
     }
 
     /**

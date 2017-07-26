@@ -4,6 +4,7 @@ namespace common\models;
 
 use mdm\admin\models\User as UserModel;
 
+
 /**
  * User model
  *
@@ -17,11 +18,13 @@ use mdm\admin\models\User as UserModel;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ *
+ * @property Address $address
  */
 class User extends UserModel
 {
     public function getAddress()
     {
-        return $this->hasOne(Address::className(), ['id' => 'user_id'])->inverseOf('user');
+        return $this->hasOne(Address::className(), ['user_id' => 'id'])->inverseOf('user');
     }
 }
