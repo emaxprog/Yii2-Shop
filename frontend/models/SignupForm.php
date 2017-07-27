@@ -7,6 +7,7 @@ use common\models\Phone;
 use common\models\User;
 use mdm\admin\models\form\Signup as Signup;
 use yii\db\Exception;
+use yii\web\BadRequestHttpException;
 
 /**
  * Signup form
@@ -78,6 +79,8 @@ class SignupForm extends Signup
             $transaction = \Yii::$app->db->beginTransaction();
             try {
                 $user = new User();
+                $address = new Address();
+
                 $user->username = $this->username;
                 $user->email = $this->email;
                 $user->name = $this->name;
@@ -85,19 +88,25 @@ class SignupForm extends Signup
                 $user->phone = $this->phone;
                 $user->setPassword($this->password);
                 $user->generateAuthKey();
-                if ($user->save()) {
-                    $address = new Address();
-                    $address->user_id = $user->id;
-                    $address->address = $this->address;
-                    $address->postcode = $this->postcode;
-                    $address->city_id = $this->city_id;
-                    $address->save();
 
+                $address->user_id = $user->id;
+                $address->address = $this->address;
+                $address->postcode = $this->postcode;
+                $address->city_id = $this->city_id;
+
+                $isValid = $user->validate();
+                $isValid = $address->validate() && $isValid;
+
+                if ($isValid) {
+                    $user->save(false);
+                    $user->link('address', $address);
                     $transaction->commit();
+
                     return $user;
                 }
             } catch (Exception $e) {
                 $transaction->rollBack();
+                throw new BadRequestHttpException();
             }
         }
         return null;
