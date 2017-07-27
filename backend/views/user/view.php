@@ -45,14 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Почтовый индекс',
                 'value' => $model->address->postcode
             ],
-            [
-                'attribute' => 'created_at',
-                'format' => ['datetime', 'php:d.m.Y H:i:s']
-            ],
-            [
-                'attribute' => 'updated_at',
-                'format' => ['datetime', 'php:d.m.Y H:i:s']
-            ],
+            'created_at',
+            'updated_at',
         ],
     ]) ?>
 

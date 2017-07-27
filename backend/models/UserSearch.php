@@ -58,10 +58,10 @@ class UserSearch extends User
 
         if ($this->created_at) {
             $dateRange = explode(' - ', $this->created_at);
-            $beginDate = $dateRange[0];
-            $endDate = $dateRange[1];
-            $query->andWhere(['>', 'created_at', Yii::$app->formatter->asTimestamp($beginDate)]);
-            $query->andWhere(['<=', 'created_at', Yii::$app->formatter->asTimestamp($endDate)]);
+            $createdAtFrom = $dateRange[0];
+            $createdAtEnd = $dateRange[1];
+            $query->andWhere(['>=', 'created_at', Yii::$app->formatter->asTimestamp($createdAtFrom)]);
+            $query->andWhere(['<=', 'created_at', Yii::$app->formatter->asTimestamp($createdAtEnd)]);
         }
 
         $query->andFilterWhere(['like', 'username', $this->username])
