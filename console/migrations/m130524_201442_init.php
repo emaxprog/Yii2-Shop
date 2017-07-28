@@ -4,7 +4,7 @@ use yii\db\Migration;
 
 class m130524_201442_init extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -68,7 +68,7 @@ class m130524_201442_init extends Migration
             'email' => $this->string()->notNull()->unique(),
             'name' => $this->string(32)->notNull(),
             'surname' => $this->string(64)->notNull(),
-            'phone'=>$this->string(17)->notNull(),
+            'phone' => $this->string(17)->notNull(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
@@ -111,9 +111,21 @@ class m130524_201442_init extends Migration
             'id',
             'CASCADE'
         );
+
+        $this->insert('{{%user}}', [
+            'username' => 'admin',
+            'auth_key' => Yii::$app->security->generateRandomString(),
+            'password_hash' => Yii::$app->security->generatePasswordHash('admin777'),
+            'email' => '',
+            'name' => '',
+            'surname' => '',
+            'phone' => '',
+            'created_at' => Yii::$app->formatter->asTimestamp(date('d.m.Y H:i:s')),
+            'updated_at' => Yii::$app->formatter->asTimestamp(date('d.m.Y H:i:s')),
+        ]);
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%address}}');
         $this->dropTable('{{%user}}');

@@ -3,7 +3,7 @@ return [
     'id' => 'app-frontend-tests',
     'components' => [
         'assetManager' => [
-            'basePath' => __DIR__ . '/../web/assets',
+            'basePath' => Yii::getAlias('@web') . '/assets',
         ],
         'urlManager' => [
             'showScriptName' => true,

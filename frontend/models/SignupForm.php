@@ -14,6 +14,7 @@ use yii\web\BadRequestHttpException;
  */
 class SignupForm extends Signup
 {
+    public $password_repeat;
     public $name;
     public $surname;
     public $phone;
@@ -42,8 +43,9 @@ class SignupForm extends Signup
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => 'mdm\admin\models\User', 'message' => 'Этот E-mail адрес уже занят.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            [['password', 'password_repeat'], 'required'],
+            ['password', 'compare'],
+            [['password', 'password_repeat'], 'string', 'min' => 6],
             [['country', 'region'], 'safe']
         ];
     }
@@ -57,6 +59,7 @@ class SignupForm extends Signup
             'username' => 'Логин',
             'email' => 'E-mail',
             'password' => 'Пароль',
+            'password_repeat' => 'Подтвердите пароль',
             'name' => 'Имя',
             'surname' => 'Фамилия',
             'phone' => 'Телефон',

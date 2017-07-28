@@ -20,6 +20,7 @@ class UserQuery extends \yii\db\ActiveQuery
      */
     public function all($db = null)
     {
+        $this->notAdmin();
         return parent::all($db);
     }
 
@@ -29,6 +30,12 @@ class UserQuery extends \yii\db\ActiveQuery
      */
     public function one($db = null)
     {
+        $this->notAdmin();
         return parent::one($db);
+    }
+
+    public function notAdmin()
+    {
+        return $this->andWhere(['!=', 'username', 'admin']);
     }
 }

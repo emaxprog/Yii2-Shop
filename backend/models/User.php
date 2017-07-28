@@ -12,6 +12,10 @@ use yii\db\ActiveRecord;
  */
 class User extends \common\models\User
 {
+    public $new_password;
+
+    public $new_password_repeat;
+
     /**
      * @inheritdoc
      */
@@ -24,6 +28,27 @@ class User extends \common\models\User
             [['surname'], 'string', 'max' => 64],
             [['username', 'email'], 'unique'],
             ['email', 'email'],
+            ['new_password', 'compare'],
+            [['new_password', 'new_password_repeat'], 'string', 'min' => 6],
+        ]);
+    }
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'password_hash',
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'password_hash'
+                ],
+                'value' => function () {
+                    if ($this->new_password) {
+                        return Yii::$app->security->generatePasswordHash($this->new_password);
+                    }
+                    return $this->password_hash;
+                }
+            ]
         ]);
     }
 
@@ -36,6 +61,8 @@ class User extends \common\models\User
             'id' => 'ID',
             'username' => 'Имя пользователя',
             'email' => 'Email',
+            'new_password' => 'Новый пароль',
+            'new_password_repeat' => 'Подтвердите пароль',
             'name' => 'Имя',
             'surname' => 'Фамилия',
             'phone' => 'Телефон',
