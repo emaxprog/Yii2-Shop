@@ -24,7 +24,9 @@ use kartik\daterange\DateRangePicker;
 
     <?= $form->field($model, 'surname') ?>
 
-    <?= $form->field($model, 'phone') ?>
+    <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
+        'mask' => '+7 (999) 999-9999',
+    ]) ?>
 
     <?= $form->field($model, 'created_at', [
         'addon' => ['append' => ['content' => '<i class="glyphicon glyphicon-calendar"></i>']],
