@@ -30,23 +30,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'username',
             'email:email',
-            'name',
-            'surname',
-            'phone',
+            [
+                'label' => 'Имя',
+                'value' => $model->userProfile->name
+            ],
+            [
+                'label' => 'Фамилия',
+                'value' => $model->userProfile->surname
+            ],
+            [
+                'label' => 'Телефон',
+                'value' => $model->userProfile->phone
+            ],
             [
                 'label' => 'Город',
-                'value' => $model->address->city->name
+                'value' => $model->userProfile->address->city->name
             ],
             [
                 'label' => 'Адрес',
-                'value' => $model->address->address
+                'value' => $model->userProfile->address->address
             ],
             [
                 'label' => 'Почтовый индекс',
-                'value' => $model->address->postcode
+                'value' => $model->userProfile->address->postcode
             ],
-            'created_at',
-            'updated_at',
+            'createdAtText',
+            'updatedAtText',
         ],
     ]) ?>
 

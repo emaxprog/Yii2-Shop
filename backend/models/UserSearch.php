@@ -5,8 +5,6 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\User;
-
 /**
  * UserSearch represents the model behind the search form about `backend\models\User`.
  */
@@ -18,7 +16,7 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['username', 'email', 'name', 'surname', 'phone', 'created_at'], 'safe'],
+            [['username', 'email', 'created_at'], 'safe'],
         ];
     }
 
@@ -65,11 +63,7 @@ class UserSearch extends User
         }
 
         $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'surname', $this->surname])
-            ->andFilterWhere(['like', 'phone', $this->phone]);
-
+            ->andFilterWhere(['like', 'email', $this->email]);
         return $dataProvider;
     }
 }

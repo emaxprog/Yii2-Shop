@@ -5,6 +5,7 @@ namespace frontend\models;
 use common\models\Address;
 use common\models\Phone;
 use common\models\User;
+use common\models\UserProfile;
 use mdm\admin\models\form\Signup as Signup;
 use yii\db\Exception;
 use yii\web\BadRequestHttpException;
@@ -82,27 +83,28 @@ class SignupForm extends Signup
             $transaction = \Yii::$app->db->beginTransaction();
             try {
                 $user = new User();
+                $userProfile = new UserProfile();
                 $address = new Address();
 
                 $user->username = $this->username;
                 $user->email = $this->email;
-                $user->name = $this->name;
-                $user->surname = $this->surname;
-                $user->phone = $this->phone;
                 $user->setPassword($this->password);
                 $user->generateAuthKey();
 
-                $address->user_id = $user->id;
+                $userProfile->name = $this->name;
+                $userProfile->surname = $this->surname;
+                $userProfile->phone = $this->phone;
+
                 $address->address = $this->address;
                 $address->postcode = $this->postcode;
                 $address->city_id = $this->city_id;
 
-                $isValid = $user->validate();
-                $isValid = $address->validate() && $isValid;
+                $isValid = $user->validate() && $userProfile->validate() && $address->validate();
 
                 if ($isValid) {
                     $user->save(false);
-                    $user->link('address', $address);
+                    $user->link('userProfile', $userProfile);
+                    $userProfile->link('address', $address);
                     $transaction->commit();
 
                     return $user;

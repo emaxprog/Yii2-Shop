@@ -66,33 +66,67 @@ class m130524_201442_init extends Migration
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-            'name' => $this->string(32)->notNull(),
-            'surname' => $this->string(64)->notNull(),
-            'phone' => $this->string(17)->notNull(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
 
-        $this->createTable('{{%address}}', [
+        $this->createTable('{{%user_profile}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'address' => $this->string()->notNull(),
-            'postcode' => $this->integer(),
-            'city_id' => $this->integer()->notNull(),
+            'name' => $this->string(32)->notNull(),
+            'surname' => $this->string(64)->notNull(),
+            'phone' => $this->string(17)->notNull()->unique(),
         ], $tableOptions);
 
         $this->createIndex(
-            'idx-address-user_id',
-            'address',
+            'unique_idx-user_profile-id-user_id',
+            'user_profile',
+            ['id', 'user_id'],
+            true
+        );
+
+        $this->createIndex(
+            'idx-user_profile-user_id',
+            'user_profile',
             'user_id'
         );
 
         $this->addForeignKey(
-            'fk-address-user_id',
-            'address',
+            'fk-user_profile-user_id',
+            'user_profile',
             'user_id',
             'user',
+            'id',
+            'CASCADE'
+        );
+
+        $this->createTable('{{%address}}', [
+            'id' => $this->primaryKey(),
+            'user_profile_id' => $this->integer()->notNull(),
+            'city_id' => $this->integer()->notNull(),
+            'address' => $this->string()->notNull(),
+            'postcode' => $this->integer(),
+        ], $tableOptions);
+
+        $this->createIndex(
+            'unique_idx-user_profile-id-user_profile_id',
+            'address',
+            ['id', 'user_profile_id'],
+            true
+        );
+
+        $this->createIndex(
+            'idx-address-user_profile_id',
+            'address',
+            'user_profile_id'
+        );
+
+        $this->addForeignKey(
+            'fk-address-user_profile_id',
+            'address',
+            'user_profile_id',
+            'user_profile',
             'id',
             'CASCADE'
         );
@@ -117,9 +151,6 @@ class m130524_201442_init extends Migration
             'auth_key' => Yii::$app->security->generateRandomString(),
             'password_hash' => Yii::$app->security->generatePasswordHash('admin777'),
             'email' => '',
-            'name' => '',
-            'surname' => '',
-            'phone' => '',
             'created_at' => Yii::$app->formatter->asTimestamp(date('d.m.Y H:i:s')),
             'updated_at' => Yii::$app->formatter->asTimestamp(date('d.m.Y H:i:s')),
         ]);
@@ -128,6 +159,7 @@ class m130524_201442_init extends Migration
     public function safeDown()
     {
         $this->dropTable('{{%address}}');
+        $this->dropTable('{{%user_profile}}');
         $this->dropTable('{{%user}}');
         $this->dropTable('{{%city}}');
         $this->dropTable('{{%region}}');

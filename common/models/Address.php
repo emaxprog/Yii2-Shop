@@ -8,13 +8,13 @@ use Yii;
  * This is the model class for table "{{%address}}".
  *
  * @property integer $id
- * @property integer $user_id
+ * @property integer $user_profile_id
+ * @property integer $city_id
  * @property string $address
  * @property integer $postcode
- * @property integer $city_id
  *
  * @property City $city
- * @property User $user
+ * @property UserProfile $userProfile
  */
 class Address extends \yii\db\ActiveRecord
 {
@@ -24,6 +24,18 @@ class Address extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%address}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['address'], 'required'],
+            [['postcode'], 'integer'],
+            [['address'], 'string', 'max' => 255],
+        ];
     }
 
     /**
@@ -37,8 +49,8 @@ class Address extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUserProfile()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(UserProfile::className(), ['id' => 'user_profile_id']);
     }
 }

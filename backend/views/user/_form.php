@@ -20,10 +20,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'new_password_repeat')->passwordInput() ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>
-
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

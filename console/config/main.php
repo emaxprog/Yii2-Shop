@@ -15,8 +15,8 @@ return [
         'fixture' => [
             'class' => 'yii\faker\FixtureController',
             'namespace' => 'common\fixtures',
-            'templatePath' => '@common/tests/templates/fixtures',
-            'fixtureDataPath' => '@common/tests/fixtures/data',
+            'templatePath' => '@common/tests/_templates',
+            'fixtureDataPath' => '@common/tests/_data',
         ],
     ],
     'components' => [
