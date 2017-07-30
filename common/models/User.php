@@ -26,44 +26,74 @@ use yii\helpers\ArrayHelper;
  */
 class User extends UserModel
 {
+    public $new_password;
+
+    public $new_password_repeat;
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return ArrayHelper::merge(parent::rules(), [
+            [['username', 'email'], 'required'],
+            [['username', 'email'], 'string', 'max' => 255],
+            [['username', 'email'], 'unique'],
+            ['email', 'email'],
+            ['new_password', 'compare'],
+            [['new_password', 'new_password_repeat'], 'string', 'min' => 6],
+        ]);
+    }
+
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(), [
             [
                 'class' => AttributeBehavior::className(),
                 'attributes' => [
-                    ActiveRecord::EVENT_AFTER_FIND => 'created_at',
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'created_at',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'password_hash',
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'password_hash'
                 ],
-                'value' => function ($event) {
-                    if ($event->name == ActiveRecord::EVENT_AFTER_FIND) {
-                        return \Yii::$app->formatter->asDatetime($this->created_at, 'php:d.m.Y H:i:s');
+                'value' => function () {
+                    if ($this->new_password) {
+                        return \Yii::$app->security->generatePasswordHash($this->new_password);
                     }
-
-                    return $this->created_at;
-                }
-            ],
-            [
-                'class' => AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_AFTER_FIND => 'updated_at',
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'updated_at',
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
-                ],
-                'value' => function ($event) {
-                    if ($event->name == ActiveRecord::EVENT_AFTER_FIND) {
-                        return \Yii::$app->formatter->asDatetime($this->updated_at, 'php:d.m.Y H:i:s');
-                    }
-
-                    return $this->updated_at;
+                    return $this->password_hash;
                 }
             ]
         ]);
     }
 
-    public function getAddress()
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
     {
-        return $this->hasOne(Address::className(), ['user_id' => 'id'])->inverseOf('user');
+        return [
+            'id' => 'ID',
+            'username' => 'Имя пользователя',
+            'email' => 'Email',
+            'new_password' => 'Новый пароль',
+            'new_password_repeat' => 'Подтвердите пароль',
+            'created_at' => 'Зарегистрирован',
+            'updated_at' => 'Обновлен',
+            'createdAtText' => 'Зарегистрирован',
+            'updatedAtText' => 'Обновлен',
+        ];
+    }
+
+    public function getCreatedAtText()
+    {
+        return \Yii::$app->formatter->asDatetime($this->created_at);
+    }
+
+    public function getUpdatedAtText()
+    {
+        return \Yii::$app->formatter->asDatetime($this->updated_at);
+    }
+
+    public function getUserProfile()
+    {
+        return $this->hasOne(UserProfile::className(), ['user_id' => 'id'])->inverseOf('user');
     }
 }
