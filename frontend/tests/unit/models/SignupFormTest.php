@@ -1,7 +1,9 @@
 <?php
+
 namespace frontend\tests\unit\models;
 
 use common\fixtures\UserFixture;
+use common\models\User;
 use frontend\models\SignupForm;
 
 class SignupFormTest extends \Codeception\Test\Unit
@@ -20,6 +22,11 @@ class SignupFormTest extends \Codeception\Test\Unit
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);
+    }
+
+    public function _after()
+    {
+        User::deleteAll();
     }
 
     public function testCorrectSignup()
