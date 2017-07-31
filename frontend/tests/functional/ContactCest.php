@@ -14,18 +14,18 @@ class ContactCest
 
     public function checkContact(FunctionalTester $I)
     {
-        $I->see('Contact', 'h1');
+        $I->see('Контакты', 'h1');
     }
 
     public function checkContactSubmitNoData(FunctionalTester $I)
     {
         $I->submitForm('#contact-form', []);
-        $I->see('Contact', 'h1');
-        $I->seeValidationError('Name cannot be blank');
-        $I->seeValidationError('Email cannot be blank');
-        $I->seeValidationError('Subject cannot be blank');
-        $I->seeValidationError('Body cannot be blank');
-        $I->seeValidationError('The verification code is incorrect');
+        $I->see('Контакты', 'h1');
+        $I->seeValidationError('Необходимо заполнить «Имя».');
+        $I->seeValidationError('Необходимо заполнить «E-mail».');
+        $I->seeValidationError('Необходимо заполнить «Тема сообщения».');
+        $I->seeValidationError('Необходимо заполнить «Сообщение».');
+        $I->seeValidationError('Неправильный проверочный код.');
     }
 
     public function checkContactSubmitNotCorrectEmail(FunctionalTester $I)
@@ -37,11 +37,11 @@ class ContactCest
             'ContactForm[body]' => 'test content',
             'ContactForm[verifyCode]' => 'testme',
         ]);
-        $I->seeValidationError('Email is not a valid email address.');
-        $I->dontSeeValidationError('Name cannot be blank');
-        $I->dontSeeValidationError('Subject cannot be blank');
-        $I->dontSeeValidationError('Body cannot be blank');
-        $I->dontSeeValidationError('The verification code is incorrect');
+        $I->seeValidationError('Значение «E-mail» не является правильным email адресом.');
+        $I->dontSeeValidationError('Необходимо заполнить «Имя».');
+        $I->dontSeeValidationError('Необходимо заполнить «Тема сообщения».');
+        $I->dontSeeValidationError('Необходимо заполнить «Сообщение».');
+        $I->dontSeeValidationError('Неправильный проверочный код.');
     }
 
     public function checkContactSubmitCorrectData(FunctionalTester $I)
@@ -54,6 +54,6 @@ class ContactCest
             'ContactForm[verifyCode]' => 'testme',
         ]);
         $I->seeEmailIsSent();
-        $I->see('Thank you for contacting us. We will respond to you as soon as possible.');
+        $I->see('Благодарим Вас за обращение к нам. Мы ответим вам как можно скорее.');
     }
 }

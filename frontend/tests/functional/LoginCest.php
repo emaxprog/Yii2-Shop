@@ -29,14 +29,14 @@ class LoginCest
     public function checkEmpty(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('', ''));
-        $I->seeValidationError('Username cannot be blank.');
-        $I->seeValidationError('Password cannot be blank.');
+        $I->seeValidationError('Необходимо заполнить «Логин».');
+        $I->seeValidationError('Необходимо заполнить «Пароль».');
     }
 
     public function checkWrongPassword(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
-        $I->seeValidationError('Incorrect username or password.');
+        $I->seeValidationError('Некорректный логин или пароль.');
     }
     
     public function checkValidLogin(FunctionalTester $I)
