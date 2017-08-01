@@ -31,7 +31,7 @@ class LoginForm extends Login
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Некорректный логин или паро');
+                $this->addError($attribute, 'Некорректный логин или пароль.');
             }
         }
     }
