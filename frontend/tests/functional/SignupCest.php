@@ -2,6 +2,7 @@
 
 namespace frontend\tests\functional;
 
+use common\models\User;
 use frontend\tests\FunctionalTester;
 
 class SignupCest
@@ -12,6 +13,11 @@ class SignupCest
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('site/signup');
+    }
+
+    public function _after()
+    {
+        User::deleteAll();
     }
 
     public function signupWithEmptyFields(FunctionalTester $I)
@@ -35,10 +41,10 @@ class SignupCest
     {
         $I->submitForm(
             $this->formId, [
-            'SignupForm[username]'  => 'tester',
-            'SignupForm[email]'     => 'ttttt',
-            'SignupForm[password]'  => 'tester_password',
-        ]
+                'SignupForm[username]' => 'tester',
+                'SignupForm[email]' => 'ttttt',
+                'SignupForm[password]' => 'tester_password',
+            ]
         );
         $I->dontSee('Необходимо заполнить «Логин».', '.help-block');
         $I->dontSee('Необходимо заполнить «Пароль».', '.help-block');
