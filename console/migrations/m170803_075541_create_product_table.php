@@ -42,7 +42,7 @@ class m170803_075541_create_product_table extends Migration
         $this->createTable('category', [
             'id' => $this->primaryKey(),
             'name' => $this->string(64)->notNull(),
-            'parent_id' => $this->integer()->notNull()->defaultValue(1),
+            'parent_id' => $this->integer()->notNull()->defaultValue(0),
             'sort' => $this->integer()->notNull()->defaultValue(1),
             'visibility' => $this->boolean()->defaultValue(true),
         ]);
