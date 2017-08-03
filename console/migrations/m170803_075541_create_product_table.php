@@ -97,54 +97,54 @@ class m170803_075541_create_product_table extends Migration
             'CASCADE'
         );
 
-        $this->createTable('attribute', [
+        $this->createTable('characteristic', [
             'id' => $this->primaryKey(),
             'name' => $this->string(32)->notNull(),
             'unit' => $this->string(16)->notNull()
         ]);
 
-        $this->createTable('product_attribute', [
+        $this->createTable('product_characteristic', [
             'product_id' => $this->integer()->notNull(),
-            'attribute_id' => $this->integer()->notNull(),
+            'characteristic_id' => $this->integer()->notNull(),
             'value' => $this->string(64)->notNull()
         ]);
 
         $this->addPrimaryKey(
-            'pk-product_attribute-product_id-attribute_id',
-            'product_attribute',
-            ['product_id', 'attribute_id']
+            'pk-product_characteristic-product_id-characteristic_id',
+            'product_characteristic',
+            ['product_id', 'characteristic_id']
         );
 
         // creates index for column `product_id`
         $this->createIndex(
-            'idx-product_attribute-product_id',
-            'product_attribute',
+            'idx-product_characteristic-product_id',
+            'product_characteristic',
             'product_id'
         );
 
-        // add foreign key for table `product_attribute`
+        // add foreign key for table `product_characteristic`
         $this->addForeignKey(
-            'fk-product_attribute-product_id',
-            'product_attribute',
+            'fk-product_characteristic-product_id',
+            'product_characteristic',
             'product_id',
             'product',
             'id',
             'CASCADE'
         );
 
-        // creates index for column `attribute_id`
+        // creates index for column `characteristic_id`
         $this->createIndex(
-            'idx-product_attribute-attribute_id',
-            'product_attribute',
-            'attribute_id'
+            'idx-product_characteristic-characteristic_id',
+            'product_characteristic',
+            'characteristic_id'
         );
 
-        // add foreign key for table `product_attribute`
+        // add foreign key for table `product_characteristic`
         $this->addForeignKey(
-            'fk-product_attribute-attribute_id',
-            'product_attribute',
-            'attribute_id',
-            'attribute',
+            'fk-product_characteristic-characteristic_id',
+            'product_characteristic',
+            'characteristic_id',
+            'characteristic',
             'id',
             'CASCADE'
         );
@@ -155,8 +155,8 @@ class m170803_075541_create_product_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('product_attribute');
-        $this->dropTable('attribute');
+        $this->dropTable('product_characteristic');
+        $this->dropTable('characteristic');
         $this->dropTable('product');
         $this->dropTable('category');
         $this->dropTable('manufacturer');
