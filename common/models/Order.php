@@ -39,7 +39,7 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'delivery_id', 'payment_id', 'status_id', 'created_at'], 'required'],
-            [['user_id', 'delivery_id', 'payment_id', 'status_id', 'created_at'], 'integer'],
+            [['user_id', 'delivery_id', 'payment_id', 'status_id'], 'integer'],
             [['comment'], 'string', 'max' => 255],
             [['delivery_id'], 'exist', 'skipOnError' => true, 'targetClass' => Delivery::className(), 'targetAttribute' => ['delivery_id' => 'id']],
             [['payment_id'], 'exist', 'skipOnError' => true, 'targetClass' => Payment::className(), 'targetAttribute' => ['payment_id' => 'id']],
