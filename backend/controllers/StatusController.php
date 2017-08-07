@@ -3,16 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Delivery;
-use backend\models\DeliverySearch;
+use backend\models\Status;
+use backend\models\StatusSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DeliveryController implements the CRUD actions for Delivery model.
+ * StatusController implements the CRUD actions for Status model.
  */
-class DeliveryController extends Controller
+class StatusController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class DeliveryController extends Controller
     }
 
     /**
-     * Lists all Delivery models.
+     * Lists all Status models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DeliverySearch();
+        $searchModel = new StatusSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,13 +45,13 @@ class DeliveryController extends Controller
     }
 
     /**
-     * Creates a new Delivery model.
+     * Creates a new Status model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Delivery();
+        $model = new Status();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -63,7 +63,7 @@ class DeliveryController extends Controller
     }
 
     /**
-     * Updates an existing Delivery model.
+     * Updates an existing Status model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -82,7 +82,7 @@ class DeliveryController extends Controller
     }
 
     /**
-     * Deletes an existing Delivery model.
+     * Deletes an existing Status model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -95,15 +95,15 @@ class DeliveryController extends Controller
     }
 
     /**
-     * Finds the Delivery model based on its primary key value.
+     * Finds the Status model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Delivery the loaded model
+     * @return Status the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Delivery::findOne($id)) !== null) {
+        if (($model = Status::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -43,6 +43,7 @@ AppAsset::register($this);
         ['label' => 'Товары', 'url' => ['/product/index']],
         ['label' => 'Тип доставки', 'url' => ['/delivery/index']],
         ['label' => 'Способы оплаты', 'url' => ['/payment/index']],
+        ['label' => 'Статусы заказа', 'url' => ['/status/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
