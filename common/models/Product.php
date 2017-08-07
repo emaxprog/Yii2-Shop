@@ -19,7 +19,6 @@ use Yii;
  * @property integer $is_popular
  * @property integer $visibility
  * @property integer $amount
- * @property integer $created_at
  *
  * @property Category $category
  * @property Manufacturer $manufacturer
@@ -42,8 +41,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'category_id', 'manufacturer_id', 'price', 'code', 'amount', 'created_at'], 'required'],
-            [['category_id', 'manufacturer_id', 'price', 'code', 'is_new', 'is_recommended', 'is_popular', 'visibility', 'amount', 'created_at'], 'integer'],
+            [['name', 'category_id', 'manufacturer_id', 'price', 'code', 'amount'], 'required'],
+            [['category_id', 'manufacturer_id', 'price', 'code', 'is_new', 'is_recommended', 'is_popular', 'visibility', 'amount'], 'integer'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 64],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
@@ -69,7 +68,6 @@ class Product extends \yii\db\ActiveRecord
             'is_popular' => 'Популярный',
             'visibility' => 'Видимость',
             'amount' => 'Количество',
-            'created_at' => 'Дата поступления',
         ];
     }
 

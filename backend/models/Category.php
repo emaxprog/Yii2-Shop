@@ -17,6 +17,12 @@ use Yii;
  */
 class Category extends \common\models\Category
 {
+    public function getParentCategory()
+    {
+        $parentCategory = self::findOne($this->parent_id);
+        return $parentCategory ? $parentCategory->name : 'Главная категория';
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

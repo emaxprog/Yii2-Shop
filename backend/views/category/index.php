@@ -29,8 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'parent_id',
                 'value' => function ($model) {
-                    $category = Category::findOne($model->parent_id);
-                    return $category ? $category->name : 'Главная категория';
+                    return $model->parentCategory;
                 },
                 'filter' => \yii\helpers\ArrayHelper::map(Category::find()->all(), 'id', 'name'),
             ],

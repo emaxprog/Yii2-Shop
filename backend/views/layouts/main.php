@@ -40,6 +40,7 @@ AppAsset::register($this);
         ['label' => 'Пользователи', 'url' => ['/rbac/user/index']],
         ['label' => 'Производители', 'url' => ['/manufacturer/index']],
         ['label' => 'Категории', 'url' => ['/category/index']],
+        ['label' => 'Товары', 'url' => ['/product/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

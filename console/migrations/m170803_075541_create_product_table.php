@@ -60,7 +60,6 @@ class m170803_075541_create_product_table extends Migration
             'is_popular' => $this->boolean()->defaultValue(false),
             'visibility' => $this->boolean()->defaultValue(true),
             'amount' => $this->integer()->unsigned()->notNull(),
-            'created_at' => $this->integer()->notNull(),
         ]);
 
         // creates index for column `category_id`
