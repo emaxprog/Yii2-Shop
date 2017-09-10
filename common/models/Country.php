@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%country}}".
@@ -22,6 +23,10 @@ class Country extends \yii\db\ActiveRecord
         return '{{%country}}';
     }
 
+    public static function getCountriesList()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+    }
 
     /**
      * @return \yii\db\ActiveQuery
