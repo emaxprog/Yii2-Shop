@@ -2,19 +2,17 @@
 
 namespace backend\controllers;
 
-use common\models\Country;
 use Yii;
-use backend\models\Manufacturer;
-use backend\models\ManufacturerSearch;
-use yii\helpers\ArrayHelper;
+use backend\models\Category;
+use backend\models\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ManufacturerController implements the CRUD actions for Manufacturer model.
+ * CategoryController implements the CRUD actions for Category model.
  */
-class ManufacturerController extends Controller
+class CategoryController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,12 +30,12 @@ class ManufacturerController extends Controller
     }
 
     /**
-     * Lists all Manufacturer models.
+     * Lists all Category models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ManufacturerSearch();
+        $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,7 +45,7 @@ class ManufacturerController extends Controller
     }
 
     /**
-     * Displays a single Manufacturer model.
+     * Displays a single Category model.
      * @param integer $id
      * @return mixed
      */
@@ -59,27 +57,28 @@ class ManufacturerController extends Controller
     }
 
     /**
-     * Creates a new Manufacturer model.
+     * Creates a new Category model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Manufacturer();
+        $model = new Category();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
-            $countries = Country::getCountriesList();
+            $parents = Category::getParentsList();
 
             return $this->render('create', [
                 'model' => $model,
-                'countries' => $countries
+                'parents' => $parents
             ]);
         }
     }
 
     /**
-     * Updates an existing Manufacturer model.
+     * Updates an existing Category model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -91,16 +90,17 @@ class ManufacturerController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
-            $countries = Country::getCountriesList();
+            $parents = Category::getParentsList();
+
             return $this->render('update', [
                 'model' => $model,
-                'countries' => $countries
+                'parents' => $parents
             ]);
         }
     }
 
     /**
-     * Deletes an existing Manufacturer model.
+     * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -113,15 +113,15 @@ class ManufacturerController extends Controller
     }
 
     /**
-     * Finds the Manufacturer model based on its primary key value.
+     * Finds the Category model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Manufacturer the loaded model
+     * @return Category the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Manufacturer::findOne($id)) !== null) {
+        if (($model = Category::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
