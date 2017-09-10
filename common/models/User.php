@@ -51,7 +51,7 @@ class User extends UserModel
         return [
             'id' => 'ID',
             'username' => 'Имя пользователя',
-            'email' => 'Email',
+            'email' => 'E-mail',
             'new_password' => 'Новый пароль',
             'new_password_repeat' => 'Подтвердите пароль',
             'created_at' => 'Зарегистрирован',

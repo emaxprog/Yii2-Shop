@@ -1,7 +1,9 @@
 <?php
+
 namespace frontend\tests\unit\models;
 
 use common\fixtures\UserFixture;
+use common\models\User;
 use frontend\models\SignupForm;
 
 class SignupFormTest extends \Codeception\Test\Unit
@@ -22,12 +24,24 @@ class SignupFormTest extends \Codeception\Test\Unit
         ]);
     }
 
+    public function _after()
+    {
+        User::deleteAll();
+    }
+
     public function testCorrectSignup()
     {
         $model = new SignupForm([
             'username' => 'some_username',
             'email' => 'some_email@example.com',
             'password' => 'some_password',
+            'password_repeat' => 'some_password',
+            'name' => 'some_name',
+            'surname' => 'some_surname',
+            'phone' => '+7 (952) 123-3233',
+            'city_id' => 1,
+            'address' => 'some_address',
+            'postcode' => 123123,
         ]);
 
         $user = $model->signup();
@@ -52,8 +66,8 @@ class SignupFormTest extends \Codeception\Test\Unit
         expect_that($model->getErrors('email'));
 
         expect($model->getFirstError('username'))
-            ->equals('This username has already been taken.');
+            ->equals('Этот логин уже занят.');
         expect($model->getFirstError('email'))
-            ->equals('This email address has already been taken.');
+            ->equals('Этот E-mail адрес уже занят.');
     }
 }

@@ -3,7 +3,7 @@ return [
     'id' => 'app-backend-tests',
     'components' => [
         'assetManager' => [
-            'basePath' => Yii::getAlias('@web') . '/admin/assets',
+            'basePath'	=> __DIR__ . '/../../web/admin/assets',
         ],
         'urlManager' => [
             'showScriptName' => true,

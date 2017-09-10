@@ -33,7 +33,7 @@ class SignupForm extends Signup
         return [
             ['username', 'filter', 'filter' => 'trim'],
             [['username', 'name', 'surname', 'phone', 'address', 'postcode', 'city_id'], 'required'],
-            ['username', 'unique', 'targetClass' => 'mdm\admin\models\User', 'message' => 'Это имя пользователя уже занято.'],
+            ['username', 'unique', 'targetClass' => 'mdm\admin\models\User', 'message' => 'Этот логин уже занят.'],
             [['username', 'address'], 'string', 'min' => 2, 'max' => 255],
             ['name', 'string', 'min' => 2, 'max' => 32],
             ['surname', 'string', 'min' => 2, 'max' => 64],
