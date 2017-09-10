@@ -37,7 +37,9 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Пользователи', 'url' => ['/rbac/user/index']],
+        ['label' => 'Доступ', 'url' => ['/rbac/user/index']],
+        ['label' => 'Пользователи', 'url' => ['/user/index']],
+        ['label' => 'Производители', 'url' => ['/manufacturer/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -51,7 +53,7 @@ AppAsset::register($this);
             . Html::endForm()
             . '</li>';
     }
-    $menuItems = Helper::filter($menuItems);
+//    $menuItems = Helper::filter($menuItems);
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
