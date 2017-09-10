@@ -25,7 +25,7 @@ class Country extends \yii\db\ActiveRecord
 
     public static function getCountriesList()
     {
-        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+        return ArrayHelper::map(self::find()->select(['id', 'name'])->all(), 'id', 'name');
     }
 
     /**
