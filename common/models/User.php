@@ -3,8 +3,6 @@
 namespace common\models;
 
 use mdm\admin\models\User as UserModel;
-use yii\behaviors\AttributeBehavior;
-use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 
@@ -42,25 +40,6 @@ class User extends UserModel
             ['email', 'email'],
             ['new_password', 'compare'],
             [['new_password', 'new_password_repeat'], 'string', 'min' => 6],
-        ]);
-    }
-
-    public function behaviors()
-    {
-        return ArrayHelper::merge(parent::behaviors(), [
-            [
-                'class' => AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'password_hash',
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'password_hash'
-                ],
-                'value' => function () {
-                    if ($this->new_password) {
-                        return \Yii::$app->security->generatePasswordHash($this->new_password);
-                    }
-                    return $this->password_hash;
-                }
-            ]
         ]);
     }
 

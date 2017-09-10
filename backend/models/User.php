@@ -7,6 +7,20 @@ namespace backend\models;
  */
 class User extends \common\models\User
 {
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if (!$insert) {
+                if ($this->new_password) {
+                    $this->setPassword($this->new_password);
+                    $this->generateAuthKey();
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @inheritdoc
      * @return \backend\scopes\UserQuery the active query used by this AR class.
